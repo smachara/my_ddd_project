@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "MacharaM\\Social\\Backend\\": "apps/social/backend/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "MacharaM\\Tests\\": "tests/"
         }
     },
     "replace": {
@@ -52,7 +52,13 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "apps:social:up" : " symfony server:start -d --dir=.\\apps\\social\\backend\\public --port=8030 --no-tls",
+        "apps:social:dw" : "  symfony server:stop --dir=.\\apps\\social\\backend\\public"
+    },
+    "scripts-descriptions": {
+        "apps:social:up": "Run Social Network App!",
+        "apps:social:dw" : "Stop Social Network App!"
     },
     "conflict": {
         "symfony/symfony": "*"
