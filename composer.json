@@ -15,6 +15,12 @@
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
+        "behat/behat": "^3.12",
+        "friends-of-behat/mink-browserkit-driver": "^1.6",
+        "friends-of-behat/mink-extension": "^2.7",
+        "friends-of-behat/symfony-extension": "^2.4",
+        "symfony/stopwatch": "6.2.*",
+        "symfony/web-profiler-bundle": "6.2.*"
     },
     "config": {
         "allow-plugins": {
@@ -30,7 +36,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "MacharaM\\Tests\\": "tests/"
+            
+            "MacharaM\\Tests\\": "tests/",
+
+            "MacharaM\\Tests\\Shared\\Infrastructure\\": "src/shared/infrastructure/"
         }
     },
     "replace": {
