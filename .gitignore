@@ -10,5 +10,4 @@
 ###< symfony/framework-bundle ###
 /apps/social/backend/var/
 ###> friends-of-behat/symfony-extension ###
-/behat.yml
 ###< friends-of-behat/symfony-extension ###

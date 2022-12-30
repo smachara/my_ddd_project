@@ -1,19 +1,17 @@
 default:
     suites:
-        default:
-            paths: [ apps/social/backend/features/demo ]
-            contexts:
-                - MacharaM\Tests\Behat\DemoContext
-
         health_check:
             paths: [ apps/social/backend/features/health_check ]
             contexts:
                 - MacharaM\Tests\Shared\Infrastructure\Behat\ApiContext
- 
     extensions:
         FriendsOfBehat\SymfonyExtension: 
+            bootstrap: ~
             kernel:
                 class: MacharaM\Social\Backend\SocialKernel
+                environment: ~
+                debug: ~
+
         Behat\MinkExtension:
             sessions:
                 symfony:

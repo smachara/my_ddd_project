@@ -11,3 +11,4 @@ Feature: Api status
       "social-backend": "ok"
     }
     """
+    And the response status code should be "200"

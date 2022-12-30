@@ -4,33 +4,26 @@ declare(strict_types = 1);
 
 namespace MacharaM\Tests\Shared\Infrastructure\Behat;
 
-use MacharaM\Tests\Shared\Infrastructure\Mink\MinkHelper;
-use MacharaM\Tests\Shared\Infrastructure\Mink\MinkSessionRequestHelper;
-
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Mink\Session;
-use Behat\MinkExtension\Context\RawMinkContext;
-use RuntimeException;
+use Behat\MinkExtension\Context\MinkContext;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 
-final class ApiContext extends RawMinkContext
+final class ApiContext extends MinkContext implements Context
 {
-    private $sessionHelper;
-    private $minkSession;
-    private $request;
+    private ?Response $response;
 
-    public function __construct(Session $minkSession)
-    {
-        $this->minkSession   = $minkSession;
-        $this->sessionHelper = new MinkHelper($this->minkSession);
-        $this->request       = new MinkSessionRequestHelper(new MinkHelper($minkSession));
-    }
+    public function __construct(private KernelInterface $kernel)
+    {}
 
     /**
      * @Given I send a :method request to :url
      */
     public function iSendARequestTo($method, $url): void
     {
-        $this->request->sendRequest($method, $this->locatePath($url));
+        $this->response = $this->kernel->handle(Request::create($url, $method));
     }
 
     /**
@@ -38,7 +31,8 @@ final class ApiContext extends RawMinkContext
      */
     public function iSendARequestToWithBody($method, $url, PyStringNode $body): void
     {
-        $this->request->sendRequestWithPyStringNode($method, $this->locatePath($url), $body);
+       $this->response = $this->kernel->handle(Request::create($url, $method, content:$body->getRaw()));
+        // $this->request->sendRequestWithPyStringNode($method, $this->locatePath($url), $body);
     }
 
     /**
@@ -47,11 +41,30 @@ final class ApiContext extends RawMinkContext
     public function theResponseContentShouldBe(PyStringNode $expectedResponse): void
     {
         $expected = $this->sanitizeOutput($expectedResponse->getRaw());
-        $actual   = $this->sanitizeOutput($this->sessionHelper->getResponse());
-
+        $actual   = $this->sanitizeOutput($this->response->getContent());
         if ($expected !== $actual) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 sprintf("The outputs does not match!\n\n-- Expected:\n%s\n\n-- Actual:\n%s", $expected, $actual)
+            );
+        }
+    }
+
+    /**
+     * @Then the response status code should be :expectedResponseCode
+     */
+    public function theResponseStatusCodeShouldBe($expectedResponseCode): void
+    {
+        $actual   = (string) $this->response->getStatusCode();
+
+
+        assert($expectedResponseCode === $actual);
+
+        if ($expectedResponseCode !== $actual) {
+            throw new \RuntimeException(
+                sprintf(
+                    "The status code does not match!\n\n-- Expected:\n%s\n\n-- Actual:\n%s", 
+                    $expectedResponseCode, 
+                    $actual)
             );
         }
     }
@@ -61,10 +74,10 @@ final class ApiContext extends RawMinkContext
      */
     public function theResponseShouldBeEmpty(): void
     {
-        $actual = trim($this->sessionHelper->getResponse());
+        $actual   = trim($this->response->getContent());
 
         if (!empty($actual)) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 sprintf("The outputs is not empty, Actual:\n%s", $actual)
             );
         }
@@ -75,7 +88,7 @@ final class ApiContext extends RawMinkContext
      */
     public function printApiResponse(): void
     {
-        print_r($this->sessionHelper->getResponse());
+        print_r($this->response);
     }
 
     /**
@@ -83,23 +96,7 @@ final class ApiContext extends RawMinkContext
      */
     public function printResponseHeaders(): void
     {
-        print_r($this->sessionHelper->getResponseHeaders());
-    }
-
-    /**
-     * @Then the response status code should be :expectedResponseCode
-     */
-    public function theResponseStatusCodeShouldBe($expectedResponseCode): void
-    {
-        if ($this->minkSession->getStatusCode() !== (int) $expectedResponseCode) {
-            throw new RuntimeException(
-                sprintf(
-                    'The status code <%s> does not match the expected <%s>',
-                    $this->minkSession->getStatusCode(),
-                    $expectedResponseCode
-                )
-            );
-        }
+        print_r($this->response->headers);
     }
 
     private function sanitizeOutput(string $output)

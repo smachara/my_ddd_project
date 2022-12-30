@@ -3,8 +3,8 @@ services:
         autowire: true
         autoconfigure: true
 
-    MacharaM\Tests\Behat\:
-        resource: '../../../../tests/Behat/*'
-    
+    MacharaM\Tests\:
+        resource: '../../../../tests/*'
+ 
     MacharaM\Tests\Shared\Infrastructure\Behat\:
         resource: '../../../../src/shared/infrastructure/Behat/*'
