@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace MacharaM\Tests\Shared\Infrastructure\Behat;
+namespace MacharaM\Shared\Infrastructure\Behat;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
