@@ -3,7 +3,7 @@ default:
         health_check:
             paths: [ apps/social/backend/features/health_check ]
             contexts:
-                - MacharaM\Shared\Infrastructure\Behat\ApiContext
+                - MacharaM\Tests\src\Shared\Infrastructure\Behat\ApiContext
     extensions:
         FriendsOfBehat\SymfonyExtension: 
             bootstrap: ~
