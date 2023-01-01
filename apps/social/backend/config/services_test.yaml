@@ -1,3 +1,6 @@
+framework:
+    test: true
+
 services:
     _defaults:
         autowire: true
@@ -5,6 +8,5 @@ services:
 
     MacharaM\Tests\:
         resource: '../../../../tests/*'
- 
-    MacharaM\Tests\Shared\Infrastructure\Behat\:
-        resource: '../../../../src/shared/infrastructure/Behat/*'
+
+    MacharaM\Shared\Domain\RandomNumberGeneratorInterface: '@MacharaM\Tests\src\Shared\Infrastructure\ConstantRandomNumberGenerator'

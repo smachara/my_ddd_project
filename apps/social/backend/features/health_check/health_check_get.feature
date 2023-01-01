@@ -8,7 +8,8 @@ Feature: Api status
     Then the response content should be:
     """
     {
-      "social-backend": "ok"
+      "social-backend":"ok",
+      "numner":1
     }
     """
     And the response status code should be "200"

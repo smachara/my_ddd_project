@@ -33,15 +33,13 @@
     },
     "autoload": {
         "psr-4": {
+            "MacharaM\\": "src/",
             "MacharaM\\Social\\Backend\\": "apps/social/backend/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            
-            "MacharaM\\Tests\\": "tests/",
-
-            "MacharaM\\Tests\\Shared\\Infrastructure\\": "src/shared/infrastructure/"
+            "MacharaM\\Tests\\": "tests/src/"
         }
     },
     "replace": {
