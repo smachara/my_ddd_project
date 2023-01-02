@@ -7,6 +7,6 @@ services:
         autoconfigure: true
 
     MacharaM\Tests\:
-        resource: '../../../../tests/*'
+        resource: '../../../../tests/src/*'
 
-    MacharaM\Shared\Domain\RandomNumberGeneratorInterface: '@MacharaM\Tests\src\Shared\Infrastructure\ConstantRandomNumberGenerator'
+    MacharaM\Shared\Domain\RandomNumberGeneratorInterface: '@MacharaM\Tests\Shared\Infrastructure\ConstantRandomNumberGenerator'

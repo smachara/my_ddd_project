@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace MacharaM\Tests\src\Shared\Infrastructure;
+namespace MacharaM\Tests\Shared\Infrastructure;
 
 use MacharaM\Shared\Domain\RandomNumberGeneratorInterface;
 
