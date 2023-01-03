@@ -22,7 +22,9 @@
         "friends-of-behat/symfony-extension": "^2.4",
         "symfony/browser-kit": "6.2.*",
         "symfony/stopwatch": "6.2.*",
-        "symfony/web-profiler-bundle": "6.2.*"
+        "symfony/web-profiler-bundle": "6.2.*",
+        "phpunit/phpunit": "^9.5",
+        "symfony/phpunit-bridge": "^6.2"
     },
     "config": {
         "allow-plugins": {
@@ -92,6 +94,9 @@
         "apps:stop:all": [
             "@apps:s:d",
             "@apps:b:d"
+        ],
+        "phpunit": [
+            "php vendor\\bin\\phpunit"
         ]
     },
     "scripts-descriptions": {

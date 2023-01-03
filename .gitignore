@@ -12,3 +12,12 @@
 /apps/backoffice/backend/var/
 ###> friends-of-behat/symfony-extension ###
 ###< friends-of-behat/symfony-extension ###
+
+###> phpunit/phpunit ###
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
