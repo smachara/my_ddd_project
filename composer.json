@@ -34,7 +34,8 @@
     "autoload": {
         "psr-4": {
             "MacharaM\\": "src/",
-            "MacharaM\\Social\\Backend\\": "apps/social/backend/src/"
+            "MacharaM\\Social\\Backend\\":     "apps/social/backend/src/",
+            "MacharaM\\Backoffice\\Backend\\": "apps/backoffice/backend/src/"
         }
     },
     "autoload-dev": {
@@ -62,12 +63,46 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "apps:social:up" : " symfony server:start -d --dir=.\\apps\\social\\backend\\public --port=80 --no-tls",
-        "apps:social:dw" : "  symfony server:stop --dir=.\\apps\\social\\backend\\public"
+        "apps:s:u" :[
+            "symfony server:start -d --dir=.\\apps\\social\\backend\\public --port=80 ",
+            "start /max http://127.0.0.1:80"
+        ],        
+        "apps:b:u" :        
+        [
+            "symfony server:start -d --dir=.\\apps\\backoffice\\backend\\public --port=81 --no-tls",
+            "start /max http://127.0.0.1:81"
+        ],
+        "apps:s:d" :        " symfony server:stop --dir=.\\apps\\social\\backend\\public",
+        "apps:b:d" :        " symfony server:stop --dir=.\\apps\\backoffice\\backend\\public",
+        "test:backoffice" : [ " php vendor\\bin\\behat -p backoffice_backend -v " ],
+        "test:social" :     " php vendor\\bin\\behat -p social_backend -v ",
+        "test:all" : [
+            "@cache:clear",
+            "@test:backoffice",
+            "@test:social"
+        ],
+        "cache:clear" : [
+            "rm -rf apps\\backoffice\\backend\\var\\",
+            "rm -rf apps\\social\\backend\\var\\"
+        ],
+        "apps:start:all": [
+            "@apps:s:u",
+            "@apps:b:u"
+        ],
+        "apps:stop:all": [
+            "@apps:s:d",
+            "@apps:b:d"
+        ]
     },
     "scripts-descriptions": {
-        "apps:social:up": "Run Social Network App!",
-        "apps:social:dw" : "Stop Social Network App!"
+        "apps:s:u": "Run Social Network App!",
+        "apps:s:d" : "Stop Social Network App!",
+
+        "apps:b:u": "Run Social Backoffice Network App!",
+        "apps:b:d" : "Stop Social Backoffice Network App!",
+
+        "test:backoffice" : " Test Backoffice Backend",
+        "test:social" :     " Test Social Backend"
     },
     "conflict": {
         "symfony/symfony": "*"

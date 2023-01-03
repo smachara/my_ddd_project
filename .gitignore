@@ -9,5 +9,6 @@
 /vendor/
 ###< symfony/framework-bundle ###
 /apps/social/backend/var/
+/apps/backoffice/backend/var/
 ###> friends-of-behat/symfony-extension ###
 ###< friends-of-behat/symfony-extension ###

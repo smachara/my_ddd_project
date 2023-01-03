@@ -1,2 +1,3 @@
 imports:
-  - apps/social/backend/config/behat.yml
+    - apps/social/backend/config/behat.yml
+    - apps/backoffice/backend/config/behat.yml

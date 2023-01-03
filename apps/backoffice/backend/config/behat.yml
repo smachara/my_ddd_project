@@ -1,14 +1,14 @@
-social_backend:
+backoffice_backend:
     suites:
-        health_check:
-            paths: [ apps/social/backend/features/health_check ]
+        health_check_b:
+            paths: [ apps/backoffice/backend/features/health_check ]
             contexts:
                 - MacharaM\Tests\Shared\Infrastructure\Behat\ApiContext
     extensions:
         FriendsOfBehat\SymfonyExtension: 
             bootstrap: ~
             kernel:
-                class: MacharaM\Social\Backend\SocialKernel
+                class: MacharaM\Backoffice\Backend\BackofficeKernel
                 environment: ~
                 debug: ~
 

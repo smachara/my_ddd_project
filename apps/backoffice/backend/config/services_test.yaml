@@ -1,0 +1,13 @@
+framework:
+    test: true
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    MacharaM\Tests\:
+        resource: '../../../../tests/src/*'
+        tags: ['test.service_container']
+
+    MacharaM\Shared\Domain\RandomNumberGeneratorInterface: '@MacharaM\Tests\Shared\Infrastructure\ConstantRandomNumberGenerator'
