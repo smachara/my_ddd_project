@@ -1,0 +1,19 @@
+social_frontend:
+    suites:
+        health_check:
+            paths: [ apps/social/frontend/features/health_check ]
+            contexts:
+                - MacharaM\Tests\Shared\Infrastructure\Behat\ApiContext
+    extensions:
+        FriendsOfBehat\SymfonyExtension: 
+            bootstrap: ~
+            kernel:
+                class: MacharaM\Social\Frontend\SocialFrontendKernel
+                environment: ~
+                debug: ~
+
+        Behat\MinkExtension:
+            sessions:
+                symfony:
+                    symfony: ~
+            base_url: ''
