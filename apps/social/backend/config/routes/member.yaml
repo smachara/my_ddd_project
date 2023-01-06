@@ -1,0 +1,4 @@
+member_post:
+    path: /member/{id}
+    controller: MacharaM\Social\Backend\Controller\Member\MemberPostController
+    methods:  [POST]

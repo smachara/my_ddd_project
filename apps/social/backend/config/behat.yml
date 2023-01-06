@@ -4,6 +4,11 @@ social_backend:
             paths: [ apps/social/backend/features/health_check ]
             contexts:
                 - MacharaM\Tests\Shared\Infrastructure\Behat\ApiContext
+        member:
+            paths: [ apps/social/backend/features/member ]
+            contexts:
+                - MacharaM\Tests\Shared\Infrastructure\Behat\ApiContext
+
     extensions:
         FriendsOfBehat\SymfonyExtension: 
             bootstrap: ~

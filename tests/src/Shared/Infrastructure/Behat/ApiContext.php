@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace MacharaM\Tests\Shared\Infrastructure\Behat;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\MinkExtension\Context\MinkContext;
@@ -28,6 +29,7 @@ final class ApiContext extends MinkContext implements Context
 
     /**
      * @Given I send a :method request to :url with body:
+     * @And I send a :method request to :url with body:
      */
     public function iSendARequestToWithBody($method, $url, PyStringNode $body): void
     {
@@ -57,7 +59,7 @@ final class ApiContext extends MinkContext implements Context
         $actual   = (string) $this->response->getStatusCode();
 
 
-        assert($expectedResponseCode === $actual);
+        //assert($expectedResponseCode === $actual);
 
         if ($expectedResponseCode !== $actual) {
             throw new \RuntimeException(
@@ -102,5 +104,14 @@ final class ApiContext extends MinkContext implements Context
     private function sanitizeOutput(string $output)
     {
         return json_encode(json_decode(trim($output), true));
+    }
+
+    /**
+     * @Given I have a valid API key
+     */
+    public function iHaveAValidApiKey()
+    {
+        true;
+        // throw new PendingException();
     }
 }

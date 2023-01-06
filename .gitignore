@@ -8,8 +8,11 @@
 
 /vendor/
 ###< symfony/framework-bundle ###
+/apps/social/frontend/var/
 /apps/social/backend/var/
 /apps/backoffice/backend/var/
+/apps/backoffice/frontend/var/
+
 ###> friends-of-behat/symfony-extension ###
 ###< friends-of-behat/symfony-extension ###
 
@@ -21,3 +24,5 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+src/Social/Member/Infrastructure/Persistence/member.9f271baa-f35f-42e7-b6ec-e71bf132a8c1.repo
+src/Social/Member/Infrastructure/Persistence/member.e90fa745-4cc6-4b26-afbb-4c4c0e539029.repo

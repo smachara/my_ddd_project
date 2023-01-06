@@ -7,6 +7,8 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "lambdish/phunctional": "^2.1",
+        "ramsey/uuid": "^4.7",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
@@ -37,7 +39,10 @@
         "psr-4": {
             "MacharaM\\": "src/",
             "MacharaM\\Social\\Backend\\":     "apps/social/backend/src/",
-            "MacharaM\\Backoffice\\Backend\\": "apps/backoffice/backend/src/"
+            "MacharaM\\Backoffice\\Backend\\": "apps/backoffice/backend/src/",
+            "MacharaM\\Social\\Frontend\\":     "apps/social/frontend/src/",
+            "MacharaM\\Backoffice\\Frontend\\": "apps/backoffice/frontend/src/"
+
         }
     },
     "autoload-dev": {
@@ -66,38 +71,62 @@
             "@auto-scripts"
         ],
         "apps:s:u" :[
-            "symfony server:start -d --dir=.\\apps\\social\\backend\\public --port=80 ",
+            "symfony server:start -d --dir=.\\apps\\social\\backend\\public --port=80 --no-tls",
             "start /max http://127.0.0.1:80"
+        ],        
+        "apps:s:f:u" :[
+            "symfony server:start -d --dir=.\\apps\\social\\frontend\\public --port=81 --no-tls",
+            "start /max http://127.0.0.1:81"
         ],        
         "apps:b:u" :        
         [
-            "symfony server:start -d --dir=.\\apps\\backoffice\\backend\\public --port=81 --no-tls",
-            "start /max http://127.0.0.1:81"
+            "symfony server:start -d --dir=.\\apps\\backoffice\\backend\\public --port=82 --no-tls",
+            "start /max http://127.0.0.1:82"
+        ],
+        "apps:b:f:u" :        
+        [
+            "symfony server:start -d --dir=.\\apps\\backoffice\\frontend\\public --port=83 --no-tls",
+            "start /max http://127.0.0.1:83"
         ],
         "apps:s:d" :        " symfony server:stop --dir=.\\apps\\social\\backend\\public",
+        "apps:s:f:d" :        " symfony server:stop --dir=.\\apps\\social\\frontend\\public",
         "apps:b:d" :        " symfony server:stop --dir=.\\apps\\backoffice\\backend\\public",
-        "test:backoffice" : [ " php vendor\\bin\\behat -p backoffice_backend -v " ],
-        "test:social" :     " php vendor\\bin\\behat -p social_backend -v ",
+        "apps:b:f:d" :        " symfony server:stop --dir=.\\apps\\backoffice\\frontend\\public",
+        
+        
+        "test:backoffice:back" : [ " php vendor\\bin\\behat -p backoffice_backend -v " ],
+        "test:social:back" :     " php vendor\\bin\\behat -p social_backend -v ",
+        "test:backoffice:front" : [ " php vendor\\bin\\behat -p backoffice_frontend -v " ],
+        "test:social:front" :     " php vendor\\bin\\behat -p social_frontend -v ",
+
         "test:all" : [
             "@cache:clear",
-            "@test:backoffice",
-            "@test:social"
+            "@test:backoffice:back",
+            "@test:social:back",
+            "@test:social:front"
         ],
         "cache:clear" : [
             "rm -rf apps\\backoffice\\backend\\var\\",
-            "rm -rf apps\\social\\backend\\var\\"
+            "rm -rf apps\\backoffice\\frontend\\var\\",
+            "rm -rf apps\\social\\backend\\var\\",
+            "rm -rf apps\\social\\frontend\\var\\"
         ],
         "apps:start:all": [
             "@apps:s:u",
-            "@apps:b:u"
+            "@apps:s:f:u",
+            "@apps:b:u",
+            "@apps:b:f:u"
         ],
         "apps:stop:all": [
             "@apps:s:d",
-            "@apps:b:d"
+            "@apps:s:f:d",
+            "@apps:b:d",
+            "@apps:b:f:d"
         ],
         "phpunit": [
             "php vendor\\bin\\phpunit"
-        ]
+        ],
+        "behat" :     "php vendor\\bin\\behat -v "
     },
     "scripts-descriptions": {
         "apps:s:u": "Run Social Network App!",
