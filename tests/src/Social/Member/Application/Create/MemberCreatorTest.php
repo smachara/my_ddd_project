@@ -4,41 +4,40 @@ declare(strict_types=1);
 
 namespace MacharaM\Tests\Social\Member\Application\Create;
 
-use MacharaM\Shared\Domain\DomainError;
 use MacharaM\Social\Member\Application\Create\CreateMemberRequest;
 use MacharaM\Social\Member\Application\Create\MemberCreator;
 use MacharaM\Social\Member\Domain\Exceptions\MemberNameMinLenght;
 use MacharaM\Social\Member\Domain\Member;
 use MacharaM\Social\Member\Domain\MemberRepository;
 use MacharaM\Social\Member\Domain\ValueObject\MemberName;
+
+use MacharaM\Tests\Social\Member\Domain\CreateMemberRequestMother;
+use MacharaM\Tests\Social\Member\Domain\MemberMother;
+
+use MacharaM\Tests\Social\Member\MemberModuleUnitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class MemberCreatorTest extends TestCase
+class MemberCreatorTest extends MemberModuleUnitTestCase
 {
-    protected $repository; 
-    protected MemberCreator $creator;
-    protected CreateMemberRequest $request;
- 
+    private MemberCreator $creator;
+   
     protected function setUp():void
     {
-        $this->repository = $this->createMock(MemberRepository::class);
-        $this->creator = new MemberCreator($this->repository);
-        $this->request = new CreateMemberRequest(
-            '9f271baa-f35f-42e7-b6ec-e71bf132a8c4',
-            'some-name',
-            'some-email',
-            'some-password'
-        );
+        parent::setUp();
+        $this->creator = new MemberCreator($this->repository());
     }
-    
     /** @test */
     public function it_should_create_a_valid_member(): void
     {
-        $member = new Member($this->request->id(), $this->request->name(), $this->request->email(), $this->request->password());
-        $this->repository->method('save')->with($member);
-        $this->creator->__invoke($this->request);
+        $request = CreateMemberRequestMother::random();
+        $member = MemberMother::fromRequest($request); 
+        
+        $this->shouldSave($member);
+
+        $this->creator->__invoke($request);
+
     }
- 
     /** @test */
     public function member_name_should_have_right_lenght(): void
     {
@@ -50,4 +49,5 @@ class MemberCreatorTest extends TestCase
         }
         $this->expectExceptionCode('min_lenght_inferior');
     }
+
 }
