@@ -4,11 +4,8 @@ declare(strict_types = 1);
 
 namespace MacharaM\Social\Backend\Controller\Member;
 
+use MacharaM\Social\Member\Application\Create\CreateMemberRequest;
 use MacharaM\Social\Member\Application\Create\MemberCreator;
-use MacharaM\Social\Member\Domain\ValueObject\MemberId;
-use MacharaM\Social\Member\Domain\ValueObject\MemberEmail;
-use MacharaM\Social\Member\Domain\ValueObject\MemberName;
-use MacharaM\Social\Member\Domain\ValueObject\MemberPassword;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,16 +18,13 @@ final class MemberPostController
     {
         $json = ( \json_decode($request->getContent()) );
 
-        $id_ = new MemberId($id);
-        $name = new MemberName($json->name);
-        $email = new MemberEmail($json->email);
-        $password = new MemberPassword($json->password);
-
-        $this->creator->__invoke(
-            $id_,
-            $name,    
-            $email,   
-            $password,
+        $this->creator->__invoke( 
+            new CreateMemberRequest(
+                $id, 
+                $json->name, 
+                $json->email, 
+                $json->password
+            ) 
         );
         return new Response(
             content:'', 
